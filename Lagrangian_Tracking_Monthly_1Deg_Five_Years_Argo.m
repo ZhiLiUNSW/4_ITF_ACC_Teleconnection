@@ -25,7 +25,7 @@
 % #########################################################################
 %  V2.2: 2025/02/22: Added a checking and correction scheme to check if 
 %  boundaries are correctly located around the new locations
-%  2024/03/05, ZHI LI, UNSW SYDNEY CMSI, zhi.li4@unsw.edu.au
+%  ZHI LI, UNSW SYDNEY CMSI, zhi.li4@unsw.edu.au
 % #########################################################################
 clc; clear
 
@@ -576,35 +576,6 @@ for release_mon = 9
                    positions_up(:,:,month+1)    = positions_down(:,:,month+1) + resolu; 
                 end   
                 clear distance_x_RK distance_y_RK
-                  
-                % Checking if the boundaries are located correctly
-                  for i = 1:size(positions_x,1)
-                      for j = 1:size(positions_x,2)
-                          if positions_x(i,j,month+1) - positions_left(i,j,month+1) >= resolu && positions_x(i,j,month+1) - positions_left(i,j,month+1) < 2*resolu
-                             disp(['          X-boundary relocated at i#',num2str(i),' j#',num2str(j)])
-                             positions_left(i,j,month+1)  = positions_left(i,j,month+1)  + resolu;
-                             positions_right(i,j,month+1) = positions_right(i,j,month+1) + resolu;
-                             
-                          elseif positions_x(i,j,month+1) - positions_left(i,j,month+1) >= 2*resolu 
-                             disp(['          Warning'])
-                             disp(['          X-boundary relocated at i#',num2str(i),' j#',num2str(j)])
-                             positions_left(i,j,month+1)  = positions_left(i,j,month+1)  + floor((positions_x(i,j,month+1) - positions_left(i,j,month+1))./resolu).*resolu;
-                             positions_right(i,j,month+1) = positions_right(i,j,month+1) + floor((positions_x(i,j,month+1) - positions_left(i,j,month+1))./resolu).*resolu;
-                          end
-                          
-                          if positions_y(i,j,month+1) - positions_down(i,j,month+1) >= resolu  && positions_y(i,j,month+1) - positions_down(i,j,month+1) < 2*resolu
-                             disp(['          Y-boundary relocated at i#',num2str(i),' j#',num2str(j)])
-                             positions_down(i,j,month+1)  = positions_down(i,j,month+1)  + resolu;
-                             positions_up(i,j,month+1)    = positions_up(i,j,month+1)    + resolu;
-                             
-                          elseif positions_y(i,j,month+1) - positions_down(i,j,month+1) >= 2*resolu 
-                             disp(['          Warning'])
-                             disp(['          Y-boundary relocated at i#',num2str(i),' j#',num2str(j)])
-                             positions_down(i,j,month+1)  = positions_down(i,j,month+1)  + floor((positions_y(i,j,month+1) - positions_down(i,j,month+1))./resolu).*resolu;
-                             positions_up(i,j,month+1)    = positions_up(i,j,month+1)    + floor((positions_y(i,j,month+1) - positions_down(i,j,month+1))./resolu).*resolu;
-                          end
-                      end
-                  end
                   
                 % Ocean Current Velocity at New Positions, Month=month+1
                 RK_vel_v_mid(:,:)=particle_v_curMON;
